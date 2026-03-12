@@ -1,7 +1,6 @@
 ---
 name: polish-guide
 purpose: 章节生成后的润色阶段加载，基于审查报告修复问题 + 强化网文口感
-version: "6.0"
 ---
 
 <context>
@@ -24,7 +23,7 @@ version: "6.0"
 
 ```json
 {
-  "chapter_file": "正文/第0123章.md",
+  "chapter_file": "正文/第0123章-章节标题.md",
   "overall_score": 82,
   "issues": [
     {"agent": "consistency-checker", "type": "POWER_CONFLICT", "severity": "critical", "location": "第6段", "suggestion": "境界越权"},
@@ -33,6 +32,8 @@ version: "6.0"
   "pass": true
 }
 ```
+
+`chapter_file` 必须是当前章节的实际文件路径；若项目尚未迁移到带标题文件名，也可传 `正文/第0123章.md`。
 
 ## 2. 执行顺序（必须按序）
 
@@ -262,18 +263,18 @@ version: "6.0"
 
 必须输出：
 1. 润色后的章节正文
-2. 修复摘要（建议结构）
+2. 修复摘要（结构如下）
 
 ```text
-[Polish Report]
-- critical_fixed: N
-- high_fixed: N
-- medium_low_fixed: N
-- anti_ai_rewrites: N
+[润色报告]
+- 严重问题已修复: N 处
+- 高优先级已修复: N 处
+- 中低优先级已修复: N 处
+- Anti-AI 改写: N 处
 - anti_ai_force_check: pass/fail
-- poison_risk: pass/fail
-- deviations:
-  - {location}: {reason}
+- 毒点风险: pass/fail
+- 偏离记录:
+  - {位置}: {原因}
 ```
 
 若 `critical` 未清零，必须显式标注“未通过”，并返回 Step 4 继续修复。
